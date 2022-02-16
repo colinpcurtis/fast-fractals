@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import sys
+from tqdm import tqdm
 
 def main():
     file = sys.argv[1]
@@ -12,7 +13,7 @@ def main():
 
     X = np.empty((shape, shape))
 
-    for idx, line in enumerate(lines):
+    for idx, line in tqdm(enumerate(lines)):
         parsed_line = line.split("\n")[0].split(" ")
         new_line = []
         for num in parsed_line:
