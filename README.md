@@ -39,8 +39,77 @@ Here are some generated fractals using the C++ generation.
     <img src="images/mandelbrot-16384.png" alt="Mandelbrot Set 16384 width">
 </figure>
 
-The first image is the Mandelbrot Set with width 4096 and the second image has width 16384.  
+The first image is the Mandelbrot Set with width 4096 and the second image has width 16384.  It's worth noting that these are png images, and hence a lot of quality is lost in compression.  It's also possible to change the image format to tiff, which greatly improves image quality at the expense of size (roughly .5 GB for the 16384 width image).
 
 It might be hard to tell in the browser, but the 16384 image width has a lot more detail when zooming into the image and in general looks less fuzzy to the eye.
 
 In the future I would like to investigate parallelizing the C++ generation algorithm, since it's massively parallel and could introduce great speedups, enabling us to generate even more detailed images.  It would also be interesting to try rendering the image directly in C++ as well, since that would stop us from having to serialize the array and run the separate python program to generate the image.
+
+These are some rudimentary times from running the C++ algorithm with and without OpenMP.  It would be interesting to investigate things like GPU acceleration or other parallelization libraries.  These times were produced on an Ubuntu 20.04 VM with 8 cores and 32 GB of RAM.
+
+**Non-parallelized times**
+
+| Image Width | Time (s)    |
+| :---        |    :----:   | 
+| 1024        | .0840       | 
+| 2048        | 3.179       | 
+| 4096        | 12.044      |
+
+
+**Parallelized Times with OpenMP**
+
+| Image Width | Time (s)    |
+| :---        |    :----:   | 
+| 1024        | .695        | 
+| 2048        | 1.568       | 
+| 4096        | 6.280       |
+
+
+From this we see that the parallelized algorithm runs roughly twice as fast as the non-parallelized version.
+
+<!-- size = 1024
+no omp
+real	0m0.840s
+user	0m0.837s
+sys	0m0.002s
+
+open-mp
+real	0m0.695s
+user	0m1.394s
+sys	0m0.016s
+
+size = 2048
+
+no omp
+real	0m3.179s
+user	0m3.052s
+sys	0m0.026s
+
+omp
+real	0m1.568s
+user	0m3.996s
+sys	0m0.042s
+
+size = 4096
+no-openmp
+real	0m12.044s
+user	0m11.358s
+sys	0m0.072s
+
+open-mp
+real	0m6.280s
+user	0m13.615s
+sys	0m0.118s
+
+
+size = 8192
+
+no-omp
+real	0m46.772s
+user	0m44.727s
+sys	0m0.278s
+
+omp
+real	0m23.186s
+user	0m50.044s
+sys	0m0.417s -->

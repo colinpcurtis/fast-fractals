@@ -20,17 +20,15 @@ def main():
                 new_line.append(int(num))
         X[idx, :] = new_line
 
-    print(X)
-
     fig = plt.figure(figsize=(10, 10))
     ax = plt.axes()
 
     ax.imshow(X.T, interpolation="bilinear", cmap='magma')
     ax.axis("off")
-    plt.savefig(f"./images/mandelbrot-{shape}.png")
+    plt.savefig(f"./images/mandelbrot-{shape}.png", dpi=1200)
 
     plt.show()
-    
+
 
 if __name__ == "__main__":
     main()
